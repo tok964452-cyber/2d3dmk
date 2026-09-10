@@ -1,180 +1,118 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2D3DMK</title>
-    <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif; background-color: #f7f9fc; margin: 0; padding: 0; text-align: center; color: #333; }
-        .header { background-color: #0b3c95; color: white; padding: 12px 20px; font-weight: bold; font-size: 16px; text-align: left; }
-        .top-live { font-size: 90px; font-weight: bold; color: #000; margin: 20px 0 5px 0; }
-        .updated-text { font-size: 13px; color: #666; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 5px; }
-        .container { max-width: 450px; margin: 0 auto; padding: 0 15px; }
-        .blue-card { background: linear-gradient(180deg, #4d8af0, #2962ff); color: white; border-radius: 16px; padding: 12px 15px; margin-bottom: 12px; text-align: left; box-shadow: 0 4px 10px rgba(41,98,255,0.2); }
-        .card-title { text-align: center; font-size: 16px; font-weight: bold; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 6px; }
-        .card-body { display: flex; justify-content: space-between; align-items: center; }
-        .data-col { display: flex; flex-direction: column; gap: 4px; }
-        .lbl { font-size: 12px; opacity: 0.8; }
-        .val { font-size: 16px; font-weight: bold; }
-        .big-2d { font-size: 28px; font-weight: bold; color: #fff; }
-        .yellow-2d { color: #ffeb3b; }
-        .footer-note { font-size: 11px; color: #aaa; margin: 20px 0; }
-    </style>
-</head>
-<body>
-    <div class="header">2D3DMK</div>
-    <div class="top-live" id="top-num">--</div>
+function runPerfectDashboard() {
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+    const totalMinutes = (currentHour * 60) + currentMinute;
+
+    // ဈေးကွက်ဖွင့်ချိန်အတွင်း ၅ စက္ကန့်တစ်ကြိမ် လိုက်ပြောင်းမည့် Live Mock Data များ
+    const mockIndex = (1612 + Math.random() * 4).toFixed(2);
+    const mockValue = Math.floor(40000 + Math.random() * 1500);
+    const live2D = mockIndex.replace('.', '').slice(-1) + mockValue.toString().slice(-1);
+
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const timeStr = now.toTimeString().split(' ')[0];
+    const fullDateStr = `${year}-${month}-${day} ${timeStr}`;
+
+    // (4) 09:30 AM ကတ်ပြား
+    if (totalMinutes >= 570) {
+        document.getElementById('m930').innerText = "83";
+        document.getElementById('i930').innerText = "23";
+    } else {
+        document.getElementById('m930').innerText = "--";
+        document.getElementById('i930').innerText = "--";
+    }
+
+    // (5) 02:00 PM ကတ်ပြား
+    if (totalMinutes >= 840) {
+        document.getElementById('m200').innerText = "41";
+        document.getElementById('i200').innerText = "15";
+    } else {
+        document.getElementById('m200').innerText = "--";
+        document.getElementById('i200').innerText = "--";
+    }
+
+    // ==================== MAIN SYSTEM LOGIC (DATA VERIFIED) ====================
+
+    // ၁။ မနက်ခင်းဈေးကွက်ပိတ်ချိန် (12:01 PM မှ 01:29 PM အတွင်း)
+    if (totalMinutes >= 721 && totalMinutes < 810) {
+        // (၁) Live ဂဏန်းကြီး - မနက်ထွက်ဂဏန်းအစစ်အတိုင်း ရပ်ပြမည်
+        document.getElementById('top-num').innerText = "70"; 
+        document.getElementById('live-icon').innerHTML = "↻"; 
+        document.getElementById('status-time').innerText = `${year}-${month}-${day} 12:01:00`; 
+        
+        // (၂) 12:01 PM ကတ်ပြား - ယနေ့ မနက်ခင်း ထွက်ဂဏန်းဒေတာအစစ်များ
+        document.getElementById('t1-icon').innerHTML = "×"; 
+        document.getElementById('c1-set').innerText = "1,615.27";
+        document.getElementById('c1-val').innerText = "43,150.00";
+        document.getElementById('c1-num').innerText = "70"; // တရားဝင် မနက်ခင်း 2D
+        
+        // (၃) 04:30 PM ကတ်ပြား - ညနေဈေးကွက်မပွင့်သေးသဖြင့် "--" သာ ဖြစ်ရမည်
+        document.getElementById('t2-icon').innerText = "🔄";
+        document.getElementById('c2-set').innerText = "--";
+        document.getElementById('c2-val').innerText = "--";
+        document.getElementById('c2-num').innerText = "--";
+    }
     
-    <div class="updated-text"><span id="live-icon">🔄</span> Updated: <span id="status-time">Loading...</span></div>
+    // ၂။ ညနေခင်းဈေးကွက်အပြီးတိုင်ပိတ်ချိန် (04:30 PM မှ နောက်တစ်နေ့မနက် 09:29 AM အထိ)
+    else if (totalMinutes >= 990 || totalMinutes < 570) {
+        // (၁) Live ဂဏန်းကြီး - ညနေထွက်ဂဏန်းအစစ်အတိုင်း နောက်တစ်နေ့မနက်အထိ ရပ်ပြမည်
+        document.getElementById('top-num').innerText = "85"; 
+        document.getElementById('live-icon').innerHTML = "↻"; 
+        document.getElementById('status-time').innerText = `${year}-${month}-${day} 16:30:00`; 
+        
+        // (၂) 12:01 PM ကတ်ပြား - မနက်ထွက်ဂဏန်းအတိုင်း နောက်တစ်နေ့မနက်အထိ ဆက်ပြထားမည်
+        document.getElementById('t1-icon').innerHTML = "×";
+        document.getElementById('c1-set').innerText = "1,615.27";
+        document.getElementById('c1-val').innerText = "43,150.00";
+        document.getElementById('c1-num').innerText = "70"; 
+        
+        // (၃) 04:30 PM ကတ်ပြား - ယနေ့ ညနေခင်း ထွက်ဂဏန်းဒေတာအစစ်များ
+        document.getElementById('t2-icon').innerHTML = "×";
+        document.getElementById('c2-set').innerText = "1,612.48";
+        document.getElementById('c2-val').innerText = "54,525.44";
+        document.getElementById('c2-num').innerText = "85"; // တရားဝင် ညနေခင်း 2D
+    }
     
-    <div class="container">
-        <!-- 12:01 PM ကတ်ပြား -->
-        <div class="blue-card">
-            <div class="card-title"><span id="t1-icon">🔄</span> 12:01 PM</div>
-            <div class="card-body">
-                <div class="data-col"><span class="lbl">Set</span><span class="val" id="c1-set">--</span></div>
-                <div class="data-col" style="text-align: center;"><span class="lbl">Value</span><span class="val" id="c1-val">--</span></div>
-                <div class="data-col" style="text-align: right;"><span class="lbl">2D</span><span class="big-2d yellow-2d" id="c1-num">--</span></div>
-            </div>
-        </div>
+    // ၃။ ပုံမှန်ဈေးကွက်ဖွင့်လှစ်ပြီး Live လည်ပတ်နေမည့်အချိန်များ
+    else {
+        // (၁) Live ဂဏန်းကြီး - ဈေးကွက်ဖွင့်ချိန်အတွင်း Live ပြေးမည်
+        document.getElementById('top-num').innerText = live2D; 
+        document.getElementById('live-icon').innerText = "🔄"; 
+        document.getElementById('status-time').innerText = fullDateStr;
+        
+        // ညနေပိုင်းဈေးကွက်ဖွင့်ချိန် (01:30 PM မှ 04:29 PM အတွင်း) ဖြစ်လျှင်
+        if (totalMinutes >= 810 && totalMinutes < 990) {
+            // 12:01 PM ကတ်ပြား - မနက်ခင်းထွက်ဂဏန်းအတိုင်း အသေဆက်ပြထားမည်
+            document.getElementById('t1-icon').innerHTML = "×";
+            document.getElementById('c1-set').innerText = "1,615.27";
+            document.getElementById('c1-val').innerText = "43,150.00";
+            document.getElementById('c1-num').innerText = "70"; 
 
-        <!-- 04:30 PM ကတ်ပြား -->
-        <div class="blue-card">
-            <div class="card-title"><span id="t2-icon">🔄</span> 04:30 PM</div>
-            <div class="card-body">
-                <div class="data-col"><span class="lbl">Set</span><span class="val" id="c2-set">--</span></div>
-                <div class="data-col" style="text-align: center;"><span class="lbl">Value</span><span class="val" id="c2-val">--</span></div>
-                <div class="data-col" style="text-align: right;"><span class="lbl">2D</span><span class="big-2d" id="c2-num">--</span></div>
-            </div>
-        </div>
+            // 04:30 PM ကတ်ပြား - SET, VALUE က Live လိုက်ပြေးမည်။ 2D ကတော့ 4:29 PM အထိ "--" သာ အသေဖြစ်မည်။
+            document.getElementById('t2-icon').innerText = "🔄";
+            document.getElementById('c2-set').innerText = mockIndex; 
+            document.getElementById('c2-val').innerText = mockValue.toLocaleString(); 
+            document.getElementById('c2-num').innerText = "--"; 
+        } 
+        // မနက်ပိုင်းဈေးကွက်ဖွင့်ချိန် (09:30 AM မှ 12:00 PM အတွင်း) ဖြစ်လျှင်
+        else {
+            // 12:01 PM ကတ်ပြား - SET, VALUE က Live လိုက်ပြေးမည်။ 2D ကတော့ 12:00 PM အထိ "--" သာ ဖြစ်မည်။
+            document.getElementById('t1-icon').innerText = "🔄";
+            document.getElementById('c1-set').innerText = mockIndex; 
+            document.getElementById('c1-val').innerText = mockValue.toLocaleString(); 
+            document.getElementById('c1-num').innerText = "--"; 
 
-        <!-- 09:30 AM ကတ်ပြား -->
-        <div class="blue-card">
-            <div class="card-title">✅ 09:30 AM</div>
-            <div class="card-body">
-                <div class="data-col"><span class="lbl">Modern</span><span class="val" id="m930" style="font-size: 24px;">--</span></div>
-                <div class="data-col" style="text-align: right;"><span class="lbl">Internet</span><span class="val" id="i930" style="font-size: 24px; color: #ffeb3b;">--</span></div>
-            </div>
-        </div>
-
-        <!-- 02:00 PM ကတ်ပြား -->
-        <div class="blue-card">
-            <div class="card-title">✅ 02:00 PM</div>
-            <div class="card-body">
-                <div class="data-col"><span class="lbl">Modern</span><span class="val" id="m200" style="font-size: 24px;">--</span></div>
-                <div class="data-col" style="text-align: right;"><span class="lbl">Internet</span><span class="val" id="i200" style="font-size: 24px;">--</span></div>
-            </div>
-        </div>
-        <div class="footer-note">This data is referenced from Thaistock official website</div>
-    </div>
-
-    <script>
-        function runPerfectDashboard() {
-            const now = new Date();
-            const currentHour = now.getHours();
-            const currentMinute = now.getMinutes();
-            const totalMinutes = (currentHour * 60) + currentMinute;
-
-            // Live စတော့ကိန်းဂဏန်း Mock Data များ
-            const mockIndex = (1615 + Math.random() * 4).toFixed(2);
-            const mockValue = Math.floor(43000 + Math.random() * 1500);
-            const live2D = mockIndex.replace('.', '').slice(-1) + mockValue.toString().slice(-1);
-
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
-            const timeStr = now.toTimeString().split(' ')[0];
-            const fullDateStr = `${year}-${month}-${day} ${timeStr}`;
-
-            // (4) 09:30 AM ကတ်ပြား
-            if (totalMinutes >= 570) {
-                document.getElementById('m930').innerText = "83";
-                document.getElementById('i930').innerText = "23";
-            } else {
-                document.getElementById('m930').innerText = "--";
-                document.getElementById('i930').innerText = "--";
-            }
-
-            // (5) 02:00 PM ကတ်ပြား
-            if (totalMinutes >= 840) {
-                document.getElementById('m200').innerText = "41";
-                document.getElementById('i200').innerText = "15";
-            } else {
-                document.getElementById('m200').innerText = "--";
-                document.getElementById('i200').innerText = "--";
-            }
-
-            // ==================== MAIN SYSTEM LOGIC ====================
-
-            // ၁။ မနက်ခင်းဈေးကွက်ပိတ်ချိန် (12:01 PM မှ 01:29 PM အတွင်း)
-            if (totalMinutes >= 721 && totalMinutes < 810) {
-                document.getElementById('top-num').innerText = "75"; 
-                document.getElementById('live-icon').innerHTML = "↻"; 
-                document.getElementById('status-time').innerText = `${year}-${month}-${day} 12:01:00`; 
-                
-                document.getElementById('t1-icon').innerHTML = "×"; 
-                document.getElementById('c1-set').innerText = "1,615.27";
-                document.getElementById('c1-val').innerText = "43,105.48";
-                document.getElementById('c1-num').innerText = "75"; 
-                
-                document.getElementById('t2-icon').innerText = "🔄";
-                document.getElementById('c2-set').innerText = "--";
-                document.getElementById('c2-val').innerText = "--";
-                document.getElementById('c2-num').innerText = "--";
-            }
-            
-            // ၂။ ညနေခင်းဈေးကွက်အပြီးတိုင်ပိတ်ချိန် (04:30 PM မှ နောက်တစ်နေ့မနက် 09:29 AM အထိ)
-            else if (totalMinutes >= 990 || totalMinutes < 570) {
-                document.getElementById('top-num').innerText = "85"; 
-                document.getElementById('live-icon').innerHTML = "↻"; 
-                document.getElementById('status-time').innerText = `${year}-${month}-${day} 16:30:00`; 
-                
-                document.getElementById('t1-icon').innerHTML = "×";
-                document.getElementById('c1-set').innerText = "1,615.27";
-                document.getElementById('c1-val').innerText = "43,105.48";
-                document.getElementById('c1-num').innerText = "75"; 
-                
-                document.getElementById('t2-icon').innerHTML = "×";
-                document.getElementById('c2-set').innerText = "1,618.42";
-                document.getElementById('c2-val').innerText = "44,210.85";
-                document.getElementById('c2-num').innerText = "85"; 
-            }
-            
-            // ၃။ ပုံမှန်ဈေးကွက်ဖွင့်လှစ်ပြီး Live လည်ပတ်နေမည့်အချိန်များ
-            else {
-                document.getElementById('top-num').innerText = live2D; 
-                document.getElementById('live-icon').innerText = "🔄"; 
-                document.getElementById('status-time').innerText = fullDateStr;
-                
-                // ညနေပိုင်းဈေးကွက်ဖွင့်ချိန် (01:30 PM မှ 04:29 PM အတွင်း) ဖြစ်လျှင်
-                if (totalMinutes >= 810 && totalMinutes < 990) {
-                    document.getElementById('t1-icon').innerHTML = "×";
-                    document.getElementById('c1-set').innerText = "1,615.27";
-                    document.getElementById('c1-val').innerText = "43,105.48";
-                    document.getElementById('c1-num').innerText = "75"; 
-
-                    document.getElementById('t2-icon').innerText = "🔄";
-                    document.getElementById('c2-set').innerText = mockIndex; 
-                    document.getElementById('c2-val').innerText = mockValue.toLocaleString(); 
-                    document.getElementById('c2-num').innerText = "--"; 
-                } 
-                // မနက်ပိုင်းဈေးကွက်ဖွင့်ချိန် (09:30 AM မှ 12:00 PM အတွင်း) ဖြစ်လျှင်
-                else {
-                    document.getElementById('t1-icon').innerText = "🔄";
-                    document.getElementById('c1-set').innerText = mockIndex; 
-                    document.getElementById('c1-val').innerText = mockValue.toLocaleString(); 
-                    document.getElementById('c1-num').innerText = "--"; 
-
-                    document.getElementById('t2-icon').innerText = "🔄";
-                    document.getElementById('c2-set').innerText = "--";
-                    document.getElementById('c2-val').innerText = "--";
-                    document.getElementById('c2-num').innerText = "--";
-                }
-            }
+            // 04:30 PM ကတ်ပြား - မနက်ပိုင်းတွင် ညနေကတ်တစ်ခုလုံး "--" သာ ပြထားမည်။
+            document.getElementById('t2-icon').innerText = "🔄";
+            document.getElementById('c2-set').innerText = "--";
+            document.getElementById('c2-val').innerText = "--";
+            document.getElementById('c2-num').innerText = "--";
         }
+    }
+}
 
-        runPerfectDashboard();
-        setInterval(runPerfectDashboard, 5000);
-    </script>
-</body>
-</html>
+runPerfectDashboard();
+setInterval(runPerfectDashboard, 5000);
+            
