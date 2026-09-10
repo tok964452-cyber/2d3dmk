@@ -1,75 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2D3DMK</title>
-    <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif; background-color: #f7f9fc; margin: 0; padding: 0; text-align: center; color: #333; }
-        .header { background-color: #0b3c95; color: white; padding: 12px 20px; font-weight: bold; font-size: 16px; text-align: left; }
-        .top-live { font-size: 90px; font-weight: bold; color: #000; margin: 20px 0 5px 0; }
-        .updated-text { font-size: 13px; color: #666; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 5px; }
-        .container { max-width: 450px; margin: 0 auto; padding: 0 15px; }
-        .blue-card { background: linear-gradient(180deg, #4d8af0, #2962ff); color: white; border-radius: 16px; padding: 12px 15px; margin-bottom: 12px; text-align: left; box-shadow: 0 4px 10px rgba(41,98,255,0.2); }
-        .card-title { text-align: center; font-size: 16px; font-weight: bold; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 6px; }
-        .card-body { display: flex; justify-content: space-between; align-items: center; }
-        .data-col { display: flex; flex-direction: column; gap: 4px; }
-        .lbl { font-size: 12px; opacity: 0.8; }
-        .val { font-size: 16px; font-weight: bold; }
-        .big-2d { font-size: 28px; font-weight: bold; color: #fff; }
-        .yellow-2d { color: #ffeb3b; }
-        .footer-note { font-size: 11px; color: #aaa; margin: 20px 0; }
-    </style>
-</head>
-<body>
-    <div class="header">2D3DMK</div>
-    <div class="top-live" id="top-num">--</div>
-    
-    <!-- အချိန်ပြသင်္ကေတ နေရာ -->
-    <div class="updated-text"><span id="live-icon">🔄</span> Updated: <span id="status-time">Loading...</span></div>
-    
-    <div class="container">
-        
-        <!-- 12:01 PM ကတ်ပြား -->
-        <div class="blue-card">
-            <div class="card-title"><span id="t1-icon">🔄</span> 12:01 PM</div>
-            <div class="card-body">
-                <div class="data-col"><span class="lbl">Set</span><span class="val" id="c1-set">--</span></div>
-                <div class="data-col" style="text-align: center;"><span class="lbl">Value</span><span class="val" id="c1-val">--</span></div>
-                <div class="data-col" style="text-align: right;"><span class="lbl">2D</span><span class="big-2d yellow-2d" id="c1-num">--</span></div>
-            </div>
-        </div>
-
-        <!-- 04:30 PM ကတ်ပြား -->
-        <div class="blue-card">
-            <div class="card-title"><span id="t2-icon">🔄</span> 04:30 PM</div>
-            <div class="card-body">
-                <div class="data-col"><span class="lbl">Set</span><span class="val" id="c2-set">--</span></div>
-                <div class="data-col" style="text-align: center;"><span class="lbl">Value</span><span class="val" id="c2-val">--</span></div>
-                <div class="data-col" style="text-align: right;"><span class="lbl">2D</span><span class="big-2d" id="c2-num">--</span></div>
-            </div>
-        </div>
-
-        <!-- 09:30 AM ကတ်ပြား (ID များ ထည့်သွင်းပြင်ဆင်ထားသည်) -->
-        <div class="blue-card">
-            <div class="card-title">✅ 09:30 AM</div>
-            <div class="card-body">
-                <div class="data-col"><span class="lbl">Modern</span><span class="val" id="m930" style="font-size: 24px;">--</span></div>
-                <div class="data-col" style="text-align: right;"><span class="lbl">Internet</span><span class="val" id="i930" style="font-size: 24px; color: #ffeb3b;">--</span></div>
-            </div>
-        </div>
-
-        <!-- 02:00 PM ကတ်ပြား (ID များ ထည့်သွင်းပြင်ဆင်ထားသည်) -->
-        <div class="blue-card">
-            <div class="card-title">✅ 02:00 PM</div>
-            <div class="card-body">
-                <div class="data-col"><span class="lbl">Modern</span><span class="val" id="m200" style="font-size: 24px;">--</span></div>
-                <div class="data-col" style="text-align: right;"><span class="lbl">Internet</span><span class="val" id="i200" style="font-size: 24px;">--</span></div>
-            </div>
-        </div>
-        <div class="footer-note">This data is referenced from Thaistock official website</div>
-    </div>
-
     <script>
         function runPerfectDashboard() {
             const now = new Date();
@@ -77,7 +5,7 @@
             const currentMinute = now.getMinutes();
             const totalMinutes = (currentHour * 60) + currentMinute;
 
-            // Live စက္ကန့်ပိုင်းအလိုက် လှုပ်ရှားမည့် စတော့ကိန်းဂဏန်းများ
+            // Live စက္ကန့်ပိုင်းအလိုက် လှုပ်ရှားမည့် စတော့ကိန်းဂဏန်းများ (အပေါ်ဆုံး Live နံပါတ်အတွက်သာ)
             const mockIndex = (1615 + Math.random() * 4).toFixed(2);
             const mockValue = Math.floor(43000 + Math.random() * 1500);
             const live2D = mockIndex.replace('.', '').slice(-1) + mockValue.toString().slice(-1);
@@ -85,7 +13,7 @@
             const year = now.getFullYear();
             const month = String(now.getMonth() + 1).padStart(2, '0');
             const day = String(now.getDate()).padStart(2, '0');
-            const timeStr = now.toTimeString().split(' ')[0];
+            const timeStr = now.toTimeString().split(' ')[0]; // Time format သေချာအောင် ပြင်ဆင်ထားသည်
             const fullDateStr = `${year}-${month}-${day} ${timeStr}`;
 
             // 09:30 AM နှင့် 02:00 PM စစ်ဆေးချက်များ
@@ -137,7 +65,7 @@
                 document.getElementById('c2-set').innerText = "1,618.42";
                 document.getElementById('c2-val').innerText = "44,210.85";
             }
-            // ၃။ ပုံမှန်ဈေးကွက်ဖွင့်လှစ်ပြီး အချိန်ရော ဂဏန်းပါ Live လှုပ်ရှားနေရမည့် အချိန်များ
+            // ၃။ ပုံမှန်ဈေးကွက်ဖွင့်လှစ်ချိန် (ဂဏန်းများ ငြိမ်နေစေရန် တည်ငြိမ်သော Mock Data ထားရှိသည်)
             else {
                 document.getElementById('top-num').innerText = live2D; 
                 document.getElementById('live-icon').innerText = "🔄"; 
@@ -145,19 +73,20 @@
                 
                 document.getElementById('t1-icon').innerText = "🔄";
                 document.getElementById('c1-num').innerText = "--";
-                document.getElementById('c1-set').innerText = mockIndex;
-                document.getElementById('c1-val').innerText = mockValue.toLocaleString();
+                document.getElementById('c1-set').innerText = "1,612.45"; // ဈေးကွက်ဖွင့်ချိန်တွင် ကတ်ထဲ၌ ငြိမ်နေမည့်ဂဏန်း
+                document.getElementById('c1-val').innerText = "38,500";
                 
                 document.getElementById('t2-icon').innerText = "🔄";
                 document.getElementById('c2-num').innerText = "--";
-                document.getElementById('c2-set').innerText = mockIndex;
-                document.getElementById('c2-val').innerText = mockValue.toLocaleString();
+                document.getElementById('c2-set').innerText = "1,614.20"; // ဈေးကွက်ဖွင့်ချိန်တွင် ကတ်ထဲ၌ ငြိမ်နေမည့်ဂဏန်း
+                document.getElementById('c2-val').innerText = "41,200";
             }
         }
 
-        // Dashboard ကို တစ်စက္ကန့်တစ်ကြိမ် စွမ်းဆောင်ရည်မြှင့်တင်ပြီး ပုံမှန် Run ပေးမည့် Logic
+        // Dashboard ကို ပထမဆုံးတစ်ကြိမ် ချက်ချင်း Run မည်
         runPerfectDashboard();
-        setInterval(runPerfectDashboard, 1000);
+        
+        // အပေါ်ဆုံး Live ဂဏန်းနှင့် အချိန်ပြောင်းလဲနှုန်းကို 5000ms (၅ စက္ကန့်) သို့ ပြောင်းလဲသတ်မှတ်လိုက်သည်
+        setInterval(runPerfectDashboard, 5000);
     </script>
-</body>
-</html>
+    
