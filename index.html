@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2D3DMK</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif; background-color: #f7f9fc; margin: 0; padding: 0; text-align: center; color: #333; }
+        .header { background-color: #0b3c95; color: white; padding: 12px 20px; font-weight: bold; font-size: 16px; text-align: left; }
+        .top-live { font-size: 90px; font-weight: bold; color: #000; margin: 20px 0 5px 0; }
+        .updated-text { font-size: 13px; color: #666; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .container { max-width: 450px; margin: 0 auto; padding: 0 15px; }
+        .blue-card { background: linear-gradient(180deg, #4d8af0, #2962ff); color: white; border-radius: 16px; padding: 12px 15px; margin-bottom: 12px; text-align: left; box-shadow: 0 4px 10px rgba(41,98,255,0.2); }
+        .card-title { text-align: center; font-size: 16px; font-weight: bold; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 6px; }
+        .card-body { display: flex; justify-content: space-between; align-items: center; }
+        .data-col { display: flex; flex-direction: column; gap: 4px; }
+        .lbl { font-size: 12px; opacity: 0.8; }
+        .val { font-size: 16px; font-weight: bold; }
+        .big-2d { font-size: 28px; font-weight: bold; color: #fff; }
+        .yellow-2d { color: #ffeb3b; }
+        .footer-note { font-size: 11px; color: #aaa; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="header">2D3DMK</div>
+    <div class="top-live" id="top-num">--</div>
+    <div class="updated-text">🔄 <span id="status-time">Loading...</span></div>
+    <div class="container">
+        <div class="blue-card">
+            <div class="card-title">12:01 PM</div>
+            <div class="card-body">
+                <div class="data-col"><span class="lbl">Set</span><span class="val" id="c1-set">1,615.27</span></div>
+                <div class="data-col" style="text-align: center;"><span class="lbl">Value</span><span class="val" id="c1-val">43,105.48</span></div>
+                <div class="data-col" style="text-align: right;"><span class="lbl">2D</span><span class="big-2d yellow-2d" id="c1-num">75</span></div>
+            </div>
+        </div>
+        <div class="blue-card">
+            <div class="card-title">04:30 PM</div>
+            <div class="card-body">
+                <div class="data-col"><span class="lbl">Set</span><span class="val" id="c2-set">--</span></div>
+                <div class="data-col" style="text-align: center;"><span class="lbl">Value</span><span class="val" id="c2-val">--</span></div>
+                <div class="data-col" style="text-align: right;"><span class="lbl">2D</span><span class="big-2d" id="c2-num">--</span></div>
+            </div>
+        </div>
+        <div class="blue-card">
+            <div class="card-title">09:30 AM</div>
+            <div class="card-body">
+                <div class="data-col"><span class="lbl">Modern</span><span class="val" style="font-size: 24px;" id="m930">83</span></div>
+                <div class="data-col" style="text-align: right;"><span class="lbl">Internet</span><span class="val" style="font-size: 24px; color: #ffeb3b;" id="i930">23</span></div>
+            </div>
+        </div>
+        <div class="blue-card">
+            <div class="card-title">02:00 PM</div>
+            <div class="card-body">
+                <div class="data-col"><span class="lbl">Modern</span><span class="val" style="font-size: 24px;" id="m200">--</span></div>
+                <div class="data-col" style="text-align: right;"><span class="lbl">Internet</span><span class="val" style="font-size: 24px;" id="i200">--</span></div>
+            </div>
+        </div>
+        <div class="footer-note">This data is referenced from Thaistock official website</div>
+    </div>
+    <script>
+        async function updateDashboard() {
+            try {
+                const response = await fetch('/api/2d-live');
+                const res = await response.json();
+                document.getElementById('top-num').innerText = res.main_live;
+                document.getElementById('status-time').innerText = res.updated_time;
+                document.getElementById('c1-num').innerText = res.history_today["12:01 PM"].live_2d;
+                document.getElementById('c1-set').innerText = res.history_today["12:01 PM"].set_index;
+                document.getElementById('c1-val').innerText = res.history_today["12:01 PM"].set_value;
+                document.getElementById('c2-num').innerText = res.history_today["04:30 PM"].live_2d;
+                document.getElementById('c2-set').innerText = res.history_today["04:30 PM"].set_index;
+                document.getElementById('c2-val').innerText = res.history_today["04:30 PM"].set_value;
+                document.getElementById('m930').innerText = res.history_today["09:30 AM"].modern;
+                document.getElementById('i930').innerText = res.history_today["09:30 AM"].internet;
+                document.getElementById('m200').innerText = res.history_today["02:00 PM"].modern;
+                document.getElementById('i200').innerText = res.history_today["02:00 PM"].internet;
+            } catch (e) {}
+        }
+        updateDashboard();
+        setInterval(updateDashboard, 5000);
+    </script>
+</body>
+</html>
