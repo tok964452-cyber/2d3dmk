@@ -23,57 +23,112 @@
 </head>
 <body>
     <div class="header">2D3DMK</div>
-    <div class="top-live" id="top-num">85</div>
-    <div class="updated-text">🔄 <span id="status-time">Updated: 2026-09-10 04:30:00 PM</span></div>
+    <div class="top-live" id="top-num">--</div>
+    <div class="updated-text">🔄 <span id="status-time">Loading...</span></div>
     <div class="container">
+        
+        <!-- 12:01 PM ကတ်ပြား -->
         <div class="blue-card">
             <div class="card-title">12:01 PM</div>
             <div class="card-body">
-                <div class="data-col"><span class="lbl">Set</span><span class="val">1,615.27</span></div>
-                <div class="data-col" style="text-align: center;"><span class="lbl">Value</span><span class="val">43,105.48</span></div>
-                <div class="data-col" style="text-align: right;"><span class="lbl">2D</span><span class="big-2d yellow-2d">75</span></div>
+                <div class="data-col"><span class="lbl">Set</span><span class="val" id="c1-set">--</span></div>
+                <div class="data-col" style="text-align: center;"><span class="lbl">Value</span><span class="val" id="c1-val">--</span></div>
+                <div class="data-col" style="text-align: right;"><span class="lbl">2D</span><span class="big-2d yellow-2d" id="c1-num">--</span></div>
             </div>
         </div>
+
+        <!-- 04:30 PM ကတ်ပြား -->
         <div class="blue-card">
             <div class="card-title">04:30 PM</div>
             <div class="card-body">
-                <div class="data-col"><span class="lbl">Set</span><span class="val" id="c2-set">1,618.42</span></div>
-                <div class="data-col" style="text-align: center;"><span class="lbl">Value</span><span class="val" id="c2-val">44,210.85</span></div>
-                <div class="data-col" style="text-align: right;"><span class="lbl">2D</span><span class="big-2d" id="c2-num">85</span></div>
+                <div class="data-col"><span class="lbl">Set</span><span class="val" id="c2-set">--</span></div>
+                <div class="data-col" style="text-align: center;"><span class="lbl">Value</span><span class="val" id="c2-val">--</span></div>
+                <div class="data-col" style="text-align: right;"><span class="lbl">2D</span><span class="big-2d" id="c2-num">--</span></div>
             </div>
         </div>
+
+        <!-- 09:30 AM ကတ်ပြား -->
         <div class="blue-card">
             <div class="card-title">09:30 AM</div>
             <div class="card-body">
-                <div class="data-col"><span class="lbl">Modern</span><span class="val" style="font-size: 24px;">83</span></div>
-                <div class="data-col" style="text-align: right;"><span class="lbl">Internet</span><span class="val" style="font-size: 24px; color: #ffeb3b;">23</span></div>
+                <div class="data-col"><span class="lbl">Modern</span><span class="val" style="font-size: 24px;" id="m930">--</span></div>
+                <div class="data-col" style="text-align: right;"><span class="lbl">Internet</span><span class="val" style="font-size: 24px; color: #ffeb3b;" id="i930">--</span></div>
             </div>
         </div>
+
+        <!-- 02:00 PM ကတ်ပြား -->
         <div class="blue-card">
             <div class="card-title">02:00 PM</div>
             <div class="card-body">
-                <div class="data-col"><span class="lbl">Modern</span><span class="val" style="font-size: 24px;">41</span></div>
-                <div class="data-col" style="text-align: right;"><span class="lbl">Internet</span><span class="val" style="font-size: 24px;">15</span></div>
+                <div class="data-col"><span class="lbl">Modern</span><span class="val" style="font-size: 24px;" id="m200">--</span></div>
+                <div class="data-col" style="text-align: right;"><span class="lbl">Internet</span><span class="val" style="font-size: 24px;" id="i200">--</span></div>
             </div>
         </div>
         <div class="footer-note">This data is referenced from Thaistock official website</div>
     </div>
+
     <script>
-        // VPN မလိုဘဲ အမြဲလှုပ်ရှားနေစေရန် အလိုအလျောက် ဂဏန်းပြောင်းလဲပေးသည့်စနစ်
-        function simulateLive() {
-            const mockIndex = (1615 + Math.random() * 5).toFixed(2);
+        function checkAndRender2D() {
+            const now = new Date();
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+            
+            // လက်ရှိအချိန်ကို မိနစ်အဖြစ်ပြောင်းတွက်ခြင်း (ဥပမာ - 9:30 AM = 570 မိနစ်)
+            const totalMinutes = (currentHour * 60) + currentMinute;
+
+            // Live ပြောင်းလဲမည့် Random ဂဏန်းတွက်ချက်မှုပုံစံ
+            const mockIndex = (1615 + Math.random() * 4).toFixed(2);
             const mockValue = Math.floor(43000 + Math.random() * 1500);
             const live2D = mockIndex.replace('.', '').slice(-1) + mockValue.toString().slice(-1);
-            
+
+            // ထိပ်ဆုံးက Live ဂဏန်းကြီးကို အမြဲပြောင်းလဲနေစေရန်
             document.getElementById('top-num').innerText = live2D;
-            document.getElementById('c2-num').innerText = live2D;
-            document.getElementById('c2-set').innerText = Number(mockIndex).toLocaleString();
-            document.getElementById('c2-val').innerText = Number(mockValue).toLocaleString();
-            
-            const now = new Date();
             document.getElementById('status-time').innerText = "Updated: " + now.toLocaleTimeString();
+
+            // ၁။ 09:30 AM မတိုင်ခင်ဆိုလျှင် Modern/Internet ကို "--" ပြမည်၊ ကျော်လျှင် ဂဏန်းအသေပြမည်
+            if (totalMinutes >= 570) {
+                document.getElementById('m930').innerText = "83";
+                document.getElementById('i930').innerText = "23";
+            } else {
+                document.getElementById('m930').innerText = "--";
+                document.getElementById('i930').innerText = "--";
+            }
+
+            // ၂။ 12:01 PM မတိုင်ခင်ဆိုလျှင် "--" ပြမည်၊ ကျော်လျှင် ၁၂:၀၁ ထွက်ဂဏန်း (၇၅) ကို ပြမည်
+            if (totalMinutes >= 721) {
+                document.getElementById('c1-num').innerText = "75";
+                document.getElementById('c1-set').innerText = "1,615.27";
+                document.getElementById('c1-val').innerText = "43,105.48";
+            } else {
+                document.getElementById('c1-num').innerText = "--";
+                document.getElementById('c1-set').innerText = "--";
+                document.getElementById('c1-val').innerText = "--";
+            }
+
+            // ၃။ 02:00 PM မတိုင်ခင်ဆိုလျှင် "--" ပြမည်၊ ကျော်လျှင် ပြမည်
+            if (totalMinutes >= 840) {
+                document.getElementById('m200').innerText = "41";
+                document.getElementById('i200').innerText = "15";
+            } else {
+                document.getElementById('m200').innerText = "--";
+                document.getElementById('i200').innerText = "--";
+            }
+
+            // ၄။ 04:30 PM မတိုင်ခင်ဆိုလျှင် "--" ပြမည်၊ ကျော်လျှင် ညနေထွက်ဂဏန်း Live အတိုင်း တိုက်ရိုက်ပြမည်
+            if (totalMinutes >= 990) {
+                document.getElementById('c2-num').innerText = live2D;
+                document.getElementById('c2-set').innerText = Number(mockIndex).toLocaleString();
+                document.getElementById('c2-val').innerText = Number(mockValue).toLocaleString();
+            } else {
+                document.getElementById('c2-num').innerText = "--";
+                document.getElementById('c2-set').innerText = "--";
+                document.getElementById('c2-val').innerText = "--";
+            }
         }
-        setInterval(simulateLive, 3000); // ၃ စက္ကန့်တစ်ကြိမ် ဂဏန်းများ အလိုအလျောက် လှုပ်ရှားနေမည်
+
+        // စက္ကန့်ပိုင်းအလိုက် စစ်ဆေးမောင်းနှင်ခြင်း
+        checkAndRender2D();
+        setInterval(checkAndRender2D, 3000);
     </script>
 </body>
 </html>
