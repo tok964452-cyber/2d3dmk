@@ -50,21 +50,21 @@
             </div>
         </div>
 
-        <!-- 09:30 AM ကတ်ပြား -->
+        <!-- 09:30 AM ကတ်ပြား (ID များ ထည့်သွင်းပြင်ဆင်ထားသည်) -->
         <div class="blue-card">
             <div class="card-title">✅ 09:30 AM</div>
             <div class="card-body">
-                <div class="data-col"><span class="lbl">Modern</span><span class="val" style="font-size: 24px;">83</span></div>
-                <div class="data-col" style="text-align: right;"><span class="lbl">Internet</span><span class="val" style="font-size: 24px; color: #ffeb3b;">23</span></div>
+                <div class="data-col"><span class="lbl">Modern</span><span class="val" id="m930" style="font-size: 24px;">--</span></div>
+                <div class="data-col" style="text-align: right;"><span class="lbl">Internet</span><span class="val" id="i930" style="font-size: 24px; color: #ffeb3b;">--</span></div>
             </div>
         </div>
 
-        <!-- 02:00 PM ကတ်ပြား -->
+        <!-- 02:00 PM ကတ်ပြား (ID များ ထည့်သွင်းပြင်ဆင်ထားသည်) -->
         <div class="blue-card">
             <div class="card-title">✅ 02:00 PM</div>
             <div class="card-body">
-                <div class="data-col"><span class="lbl">Modern</span><span class="val" style="font-size: 24px;">41</span></div>
-                <div class="data-col" style="text-align: right;"><span class="lbl">Internet</span><span class="val" style="font-size: 24px;">15</span></div>
+                <div class="data-col"><span class="lbl">Modern</span><span class="val" id="m200" style="font-size: 24px;">--</span></div>
+                <div class="data-col" style="text-align: right;"><span class="lbl">Internet</span><span class="val" id="i200" style="font-size: 24px;">--</span></div>
             </div>
         </div>
         <div class="footer-note">This data is referenced from Thaistock official website</div>
@@ -92,42 +92,47 @@
             if (totalMinutes >= 570) {
                 document.getElementById('m930').innerText = "83";
                 document.getElementById('i930').innerText = "23";
+            } else {
+                document.getElementById('m930').innerText = "--";
+                document.getElementById('i930').innerText = "--";
             }
+
             if (totalMinutes >= 840) {
                 document.getElementById('m200').innerText = "41";
                 document.getElementById('i200').innerText = "15";
+            } else {
+                document.getElementById('m200').innerText = "--";
+                document.getElementById('i200').innerText = "--";
             }
 
-            // ⚠️ [စနစ်စည်းမျဉ်းချုပ်ချုပ်] ဈေးကွက်ပိတ်ချိန်တွင် အချိန်နာရီနှင့် သင်္ကေတများပါ လုံးဝ Freeze ရပ်တန့်သွားစေမည့် Logic
-            
             // ၁။ မနက်ခင်းဈေးကွက်ပိတ်ချိန် (12:01 PM မှ 02:30 PM အတွင်း)
             if (totalMinutes >= 721 && totalMinutes < 870) {
                 document.getElementById('top-num').innerText = "75"; 
-                document.getElementById('live-icon').innerHTML = "&#8635;"; // ⏰ နာရီသင်္ကေတ ပြောင်းလဲမည်
-                document.getElementById('status-time').innerText = `${year}-${month}-${day} 12:01:00`; // အချိန်နာရီပါ ၁၂:၀၁:၀၀ တွင် ရပ်တန့်သွားမည်
+                document.getElementById('live-icon').innerHTML = "↻"; 
+                document.getElementById('status-time').innerText = `${year}-${month}-${day} 12:01:00`; 
                 
-                document.getElementById('t1-icon').innerHTML = "&#215;"; 
+                document.getElementById('t1-icon').innerHTML = "×"; 
                 document.getElementById('c1-num').innerText = "75";
                 document.getElementById('c1-set').innerText = "1,615.27";
                 document.getElementById('c1-val').innerText = "43,105.48";
                 
                 document.getElementById('t2-icon').innerText = "🔄";
                 document.getElementById('c2-num').innerText = "--";
-                document.getElementById('c2-set').innerText = "1,615.27";
-                document.getElementById('c2-val').innerText = "43,105.48";
+                document.getElementById('c2-set').innerText = "--";
+                document.getElementById('c2-val').innerText = "--";
             }
             // ၂။ ညနေခင်းဈေးကွက်အပြီးတိုင်ပိတ်ချိန် (04:30 PM ကျော်လွန်သွားချိန်)
             else if (totalMinutes >= 990) {
                 document.getElementById('top-num').innerText = "85"; 
-                document.getElementById('live-icon').innerHTML = "&#8635;"; // ⏰ နာရီသင်္ကေတ ပြောင်းလဲမည်
-                document.getElementById('status-time').innerText = `${year}-${month}-${day} 16:30:00`; // အချိန်နာရီပါ ၁၆:၃၀:၀၀ တွင် ရပ်တန့်သွားမည်
+                document.getElementById('live-icon').innerHTML = "↻"; 
+                document.getElementById('status-time').innerText = `${year}-${month}-${day} 16:30:00`; 
                 
-                document.getElementById('t1-icon').innerHTML = "&#215;";
+                document.getElementById('t1-icon').innerHTML = "×";
                 document.getElementById('c1-num').innerText = "75";
                 document.getElementById('c1-set').innerText = "1,615.27";
                 document.getElementById('c1-val').innerText = "43,105.48";
                 
-                document.getElementById('t2-icon').innerHTML = "&#215;";
+                document.getElementById('t2-icon').innerHTML = "×";
                 document.getElementById('c2-num').innerText = "85";
                 document.getElementById('c2-set').innerText = "1,618.42";
                 document.getElementById('c2-val').innerText = "44,210.85";
@@ -135,24 +140,24 @@
             // ၃။ ပုံမှန်ဈေးကွက်ဖွင့်လှစ်ပြီး အချိန်ရော ဂဏန်းပါ Live လှုပ်ရှားနေရမည့် အချိန်များ
             else {
                 document.getElementById('top-num').innerText = live2D; 
-                document.getElementById('live-icon').innerText = "🔄"; // Live လည်ပတ်သင်္ကေတ
-                document.getElementById('status-time').innerText = fullDateStr; // အချိန်သည် စက္ကန့်အလိုက် ပုံမှန်တိုးနေမည်
-
-                document.getElementById('t1-icon').innerText = "🔄";
-                document.getElementById('t2-icon').innerText = "🔄";
-
-                document.getElementById('c1-num').innerText = "--";
-                document.getElementById('c1-set').innerText = Number(mockIndex).toLocaleString();
-                document.getElementById('c1-val').innerText = Number(mockValue).toLocaleString();
+                document.getElementById('live-icon').innerText = "🔄"; 
+                document.getElementById('status-time').innerText = fullDateStr;
                 
+                document.getElementById('t1-icon').innerText = "🔄";
+                document.getElementById('c1-num').innerText = "--";
+                document.getElementById('c1-set').innerText = mockIndex;
+                document.getElementById('c1-val').innerText = mockValue.toLocaleString();
+                
+                document.getElementById('t2-icon').innerText = "🔄";
                 document.getElementById('c2-num').innerText = "--";
-                document.getElementById('c2-set').innerText = Number(mockIndex).toLocaleString();
-                document.getElementById('c2-val').innerText = Number(mockValue).toLocaleString();
+                document.getElementById('c2-set').innerText = mockIndex;
+                document.getElementById('c2-val').innerText = mockValue.toLocaleString();
             }
         }
 
+        // Dashboard ကို တစ်စက္ကန့်တစ်ကြိမ် စွမ်းဆောင်ရည်မြှင့်တင်ပြီး ပုံမှန် Run ပေးမည့် Logic
         runPerfectDashboard();
-        setInterval(runPerfectDashboard, 3000);
+        setInterval(runPerfectDashboard, 1000);
     </script>
 </body>
 </html>
