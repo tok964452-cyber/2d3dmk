@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2D3DMK</title>
+    <title>2D3DMK API Dashboard</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif; background-color: #f7f9fc; margin: 0; padding: 0; text-align: center; color: #333; }
         .header { background-color: #0b3c95; color: white; padding: 12px 20px; font-weight: bold; font-size: 16px; text-align: left; }
@@ -23,14 +23,24 @@
 </head>
 <body>
     <div class="header">2D3DMK</div>
+    <!-- Live 2D တန်ဖိုးပြရန် -->
     <div class="top-live" id="top-num">--</div>
     
     <div class="updated-text"><span id="live-icon">🔄</span> Updated: <span id="status-time">Loading...</span></div>
     
     <div class="container">
+        <!-- 09:30 AM ကတ်ပြား (Modern / Internet) -->
+        <div class="blue-card">
+            <div class="card-title" id="t-0930">09:30 AM</div>
+            <div class="card-body">
+                <div class="data-col"><span class="lbl">Modern</span><span class="val" id="m930" style="font-size: 24px;">--</span></div>
+                <div class="data-col" style="text-align: right;"><span class="lbl">Internet</span><span class="val" id="i930" style="font-size: 24px; color: #ffeb3b;">--</span></div>
+            </div>
+        </div>
+
         <!-- 12:01 PM ကတ်ပြား -->
         <div class="blue-card">
-            <div class="card-title"><span id="t1-icon">🔄</span> 12:01 PM</div>
+            <div class="card-title" id="t-1201">12:01 PM</div>
             <div class="card-body">
                 <div class="data-col"><span class="lbl">Set</span><span class="val" id="c1-set">--</span></div>
                 <div class="data-col" style="text-align: center;"><span class="lbl">Value</span><span class="val" id="c1-val">--</span></div>
@@ -38,9 +48,18 @@
             </div>
         </div>
 
+        <!-- 02:00 PM ကတ်ပြား (Modern / Internet) -->
+        <div class="blue-card">
+            <div class="card-title" id="t-1400">02:00 PM</div>
+            <div class="card-body">
+                <div class="data-col"><span class="lbl">Modern</span><span class="val" id="m200" style="font-size: 24px;">--</span></div>
+                <div class="data-col" style="text-align: right;"><span class="lbl">Internet</span><span class="val" id="i200" style="font-size: 24px;">--</span></div>
+            </div>
+        </div>
+
         <!-- 04:30 PM ကတ်ပြား -->
         <div class="blue-card">
-            <div class="card-title"><span id="t2-icon">🔄</span> 04:30 PM</div>
+            <div class="card-title" id="t-1630">04:30 PM</div>
             <div class="card-body">
                 <div class="data-col"><span class="lbl">Set</span><span class="val" id="c2-set">--</span></div>
                 <div class="data-col" style="text-align: center;"><span class="lbl">Value</span><span class="val" id="c2-val">--</span></div>
@@ -48,129 +67,64 @@
             </div>
         </div>
 
-        <!-- 09:30 AM ကတ်ပြား -->
-        <div class="blue-card">
-            <div class="card-title">✅ 09:30 AM</div>
-            <div class="card-body">
-                <div class="data-col"><span class="lbl">Modern</span><span class="val" id="m930" style="font-size: 24px;">--</span></div>
-                <div class="data-col" style="text-align: right;"><span class="lbl">Internet</span><span class="val" id="i930" style="font-size: 24px; color: #ffeb3b;">--</span></div>
-            </div>
-        </div>
-
-        <!-- 02:00 PM ကတ်ပြား -->
-        <div class="blue-card">
-            <div class="card-title">✅ 02:00 PM</div>
-            <div class="card-body">
-                <div class="data-col"><span class="lbl">Modern</span><span class="val" id="m200" style="font-size: 24px;">--</span></div>
-                <div class="data-col" style="text-align: right;"><span class="lbl">Internet</span><span class="val" id="i200" style="font-size: 24px;">--</span></div>
-            </div>
-        </div>
         <div class="footer-note">This data is referenced from Thaistock official website</div>
     </div>
 
     <script>
-        function runPerfectDashboard() {
-            const now = new Date();
-            const currentHour = now.getHours();
-            const currentMinute = now.getMinutes();
-            const totalMinutes = (currentHour * 60) + currentMinute;
-
-            // ဈေးကွက်ဖွင့်ချိန်အတွင်း ၅ စက္ကန့်တစ်ကြိမ် လိုက်ပြောင်းမည့် Live Mock Data များ
-            const mockIndex = (1612 + Math.random() * 4).toFixed(2);
-            const mockValue = Math.floor(40000 + Math.random() * 1500);
-            const live2D = mockIndex.replace('.', '').slice(-1) + mockValue.toString().slice(-1);
-
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
-            const timeStr = now.toTimeString().split(' ')[0];
-            const fullDateStr = `${year}-${month}-${day} ${timeStr}`;
-
-            // (4) 09:30 AM ကတ်ပြား
-            if (totalMinutes >= 570) {
-                document.getElementById('m930').innerText = "83";
-                document.getElementById('i930').innerText = "23";
-            } else {
-                document.getElementById('m930').innerText = "--";
-                document.getElementById('i930').innerText = "--";
-            }
-
-            // (5) 02:00 PM ကတ်ပြား
-            if (totalMinutes >= 840) {
-                document.getElementById('m200').innerText = "41";
-                document.getElementById('i200').innerText = "15";
-            } else {
-                document.getElementById('m200').innerText = "--";
-                document.getElementById('i200').innerText = "--";
-            }
-
-            // ==================== SYSTEM TIME RULES LOGIC ====================
-
-            // ၁။ မနက်ခင်းဈေးကွက်ပိတ်ချိန် (12:01 PM မှ 01:29 PM အတွင်း)
-            if (totalMinutes >= 721 && totalMinutes < 810) {
-                document.getElementById('top-num').innerText = "70"; 
-                document.getElementById('live-icon').innerHTML = "↻"; 
-                document.getElementById('status-time').innerText = `${year}-${month}-${day} 12:01:00`; 
+        async function fetch2DData() {
+            try {
+                // TODO: အောက်ပါနေရာတွင် သင်၏ တကယ့် API လိပ်စာကို ထည့်ပါ
+                const apiUrl = 'YOUR_API_ENDPOINT_URL_HERE';
                 
-                document.getElementById('t1-icon').innerHTML = "×"; 
-                document.getElementById('c1-set').innerText = "1,615.27";
-                document.getElementById('c1-val').innerText = "43,150.00";
-                document.getElementById('c1-num').innerText = "70"; 
-                
-                document.getElementById('t2-icon').innerText = "🔄";
-                document.getElementById('c2-set').innerText = "--";
-                document.getElementById('c2-val').innerText = "--";
-                document.getElementById('c2-num').innerText = "--";
-            }
-            
-            // ၂။ ညနေခင်းဈေးကွက်အပြီးတိုင်ပိတ်ချိန် (04:30 PM မှ နောက်တစ်နေ့မနက် 09:29 AM အထိ)
-            else if (totalMinutes >= 990 || totalMinutes < 570) {
-                document.getElementById('top-num').innerText = "85"; 
-                document.getElementById('live-icon').innerHTML = "↻"; 
-                document.getElementById('status-time').innerText = `${year}-${month}-${day} 16:30:00`; 
-                
-                document.getElementById('t1-icon').innerHTML = "×";
-                document.getElementById('c1-set').innerText = "1,615.27";
-                document.getElementById('c1-val').innerText = "43,150.00";
-                document.getElementById('c1-num').innerText = "70"; 
-                
-                document.getElementById('t2-icon').innerHTML = "×";
-                document.getElementById('c2-set').innerText = "1,612.48";
-                document.getElementById('c2-val').innerText = "54,525.44";
-                document.getElementById('c2-num').innerText = "85"; 
-            }
-            
-            // ၃။ ပုံမှန်ဈေးကွက်ဖွင့်လှစ်ပြီး Live လည်ပတ်နေမည့်အချိန်များ
-            else {
-                document.getElementById('top-num').innerText = live2D; 
-                document.getElementById('live-icon').innerText = "🔄"; 
-                document.getElementById('status-time').innerText = fullDateStr;
-                
-                // ညနေပိုင်းဈေးကွက်ဖွင့်ချိန် (01:30 PM မှ 04:29 PM အတွင်း) ဖြစ်လျှင်
-                if (totalMinutes >= 810 && totalMinutes < 990) {
-                    document.getElementById('t1-icon').innerHTML = "×";
-                    document.getElementById('c1-set').innerText = "1,615.27";
-                    document.getElementById('c1-val').innerText = "43,150.00";
-                    document.getElementById('c1-num').innerText = "70"; 
+                const response = await fetch(apiUrl);
+                const data = await response.json();
 
-                    document.getElementById('t2-icon').innerText = "🔄";
-                    document.getElementById('c2-set').innerText = mockIndex; 
-                    document.getElementById('c2-val').innerText = mockValue.toLocaleString(); 
-                    document.getElementById('c2-num').innerText = "--"; 
-                } 
-                // မနက်ပိုင်းဈေးကွက်ဖွင့်ချိန် (09:30 AM မှ 12:00 PM အတွင်း) ဖြစ်လျှင်
-                else {
-                    document.getElementById('t1-icon').innerText = "🔄";
-                    document.getElementById('c1-set').innerText = mockIndex; 
-                    document.getElementById('c1-val').innerText = mockValue.toLocaleString(); 
-                    document.getElementById('c1-num').innerText = "--"; 
-
-                    document.getElementById('t2-icon').innerText = "🔄";
-                    document.getElementById('c2-set').innerText = "--";
-                    document.getElementById('c2-val').innerText = "--";
-                    document.getElementById('c2-num').innerText = "--";
+                // ၁။ LIVE အပိုင်းကို ထည့်သွင်းခြင်း
+                if (data.live) {
+                    document.getElementById('top-num').innerText = data.live.twod || "--";
+                    document.getElementById('status-time').innerText = data.live.time || "--";
                 }
+
+                // ၂။ RESULT အပိုင်း (အချက်အလက်များ Array သို့မဟုတ် Object ပုံစံအပေါ်မူတည်၍ အလုပ်လုပ်ရန်)
+                // ဥပမာ - data.result သည် အားလုံးပါဝင်သော array ဖြစ်နေပါက
+                if (data.result && Array.isArray(data.result)) {
+                    data.result.forEach(item => {
+                        // 09:30 အတွက်
+                        if (item.open_time === "09:30:00") {
+                            document.getElementById('m930').innerText = item.modern || "--";
+                            document.getElementById('i930').innerText = item.internet || "--";
+                        }
+                        // 12:01 အတွက်
+                        if (item.open_time === "12:01:00") {
+                            document.getElementById('c1-set').innerText = item.set || "--";
+                            document.getElementById('c1-val').innerText = item.value || "--";
+                            document.getElementById('c1-num').innerText = item.twod || "--";
+                        }
+                        // 14:00 (2:00 PM) အတွက်
+                        if (item.open_time === "14:00:00") {
+                            document.getElementById('m200').innerText = item.modern || "--";
+                            document.getElementById('i200').innerText = item.internet || "--";
+                        }
+                        // 16:30 (4:30 PM) အတွက်
+                        if (item.open_time === "16:30:00") {
+                            document.getElementById('c2-set').innerText = item.set || "--";
+                            document.getElementById('c2-val').innerText = item.value || "--";
+                            document.getElementById('c2-num').innerText = item.twod || "--";
+                        }
+                    });
+                }
+
+            } catch (error) {
+                console.error("API Fetching Error:", error);
+                document.getElementById('status-time').innerText = "Connection Error";
             }
         }
 
-        
+        // စာမျက်နှာစတင်ဖွင့်လိုက်သည်နှင့် API ကို တစ်ကြိမ်ခေါ်မည်
+        fetch2DData();
+
+        // ၅ စက္ကန့် (သို့မဟုတ်) ၁၀ စက္ကန့်တစ်ကြိမ် Live ဒေတာ အလိုအလျောက် Update ဖြစ်စေရန်
+        setInterval(fetch2DData, 5000);
+    </script>
+</body>
+</html>
