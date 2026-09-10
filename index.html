@@ -1,130 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2D3DMK API Dashboard</title>
-    <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif; background-color: #f7f9fc; margin: 0; padding: 0; text-align: center; color: #333; }
-        .header { background-color: #0b3c95; color: white; padding: 12px 20px; font-weight: bold; font-size: 16px; text-align: left; }
-        .top-live { font-size: 90px; font-weight: bold; color: #000; margin: 20px 0 5px 0; }
-        .updated-text { font-size: 13px; color: #666; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 5px; }
-        .container { max-width: 450px; margin: 0 auto; padding: 0 15px; }
-        .blue-card { background: linear-gradient(180deg, #4d8af0, #2962ff); color: white; border-radius: 16px; padding: 12px 15px; margin-bottom: 12px; text-align: left; box-shadow: 0 4px 10px rgba(41,98,255,0.2); }
-        .card-title { text-align: center; font-size: 16px; font-weight: bold; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 6px; }
-        .card-body { display: flex; justify-content: space-between; align-items: center; }
-        .data-col { display: flex; flex-direction: column; gap: 4px; }
-        .lbl { font-size: 12px; opacity: 0.8; }
-        .val { font-size: 16px; font-weight: bold; }
-        .big-2d { font-size: 28px; font-weight: bold; color: #fff; }
-        .yellow-2d { color: #ffeb3b; }
-        .footer-note { font-size: 11px; color: #aaa; margin: 20px 0; }
-    </style>
-</head>
-<body>
-    <div class="header">2D3DMK</div>
-    <!-- Live 2D တန်ဖိုးပြရန် -->
-    <div class="top-live" id="top-num">--</div>
-    
-    <div class="updated-text"><span id="live-icon">🔄</span> Updated: <span id="status-time">Loading...</span></div>
-    
-    <div class="container">
-        <!-- 09:30 AM ကတ်ပြား (Modern / Internet) -->
-        <div class="blue-card">
-            <div class="card-title" id="t-0930">09:30 AM</div>
-            <div class="card-body">
-                <div class="data-col"><span class="lbl">Modern</span><span class="val" id="m930" style="font-size: 24px;">--</span></div>
-                <div class="data-col" style="text-align: right;"><span class="lbl">Internet</span><span class="val" id="i930" style="font-size: 24px; color: #ffeb3b;">--</span></div>
-            </div>
-        </div>
+async function fetch2DData() {
+    try {
+        // API လိပ်စာအမှန်ကို ဤနေရာတွင် ထည့်ပါ
+        const apiUrl = 'https://your-api-domain.com/get_data';
+        
+        const response = await fetch(apiUrl);
+        const data = await response.json();
 
-        <!-- 12:01 PM ကတ်ပြား -->
-        <div class="blue-card">
-            <div class="card-title" id="t-1201">12:01 PM</div>
-            <div class="card-body">
-                <div class="data-col"><span class="lbl">Set</span><span class="val" id="c1-set">--</span></div>
-                <div class="data-col" style="text-align: center;"><span class="lbl">Value</span><span class="val" id="c1-val">--</span></div>
-                <div class="data-col" style="text-align: right;"><span class="lbl">2D</span><span class="big-2d yellow-2d" id="c1-num">--</span></div>
-            </div>
-        </div>
-
-        <!-- 02:00 PM ကတ်ပြား (Modern / Internet) -->
-        <div class="blue-card">
-            <div class="card-title" id="t-1400">02:00 PM</div>
-            <div class="card-body">
-                <div class="data-col"><span class="lbl">Modern</span><span class="val" id="m200" style="font-size: 24px;">--</span></div>
-                <div class="data-col" style="text-align: right;"><span class="lbl">Internet</span><span class="val" id="i200" style="font-size: 24px;">--</span></div>
-            </div>
-        </div>
-
-        <!-- 04:30 PM ကတ်ပြား -->
-        <div class="blue-card">
-            <div class="card-title" id="t-1630">04:30 PM</div>
-            <div class="card-body">
-                <div class="data-col"><span class="lbl">Set</span><span class="val" id="c2-set">--</span></div>
-                <div class="data-col" style="text-align: center;"><span class="lbl">Value</span><span class="val" id="c2-val">--</span></div>
-                <div class="data-col" style="text-align: right;"><span class="lbl">2D</span><span class="big-2d" id="c2-num">--</span></div>
-            </div>
-        </div>
-
-        <div class="footer-note">This data is referenced from Thaistock official website</div>
-    </div>
-
-    <script>
-        async function fetch2DData() {
-            try {
-                // TODO: အောက်ပါနေရာတွင် သင်၏ တကယ့် API လိပ်စာကို ထည့်ပါ
-                const apiUrl = 'YOUR_API_ENDPOINT_URL_HERE';
-                
-                const response = await fetch(apiUrl);
-                const data = await response.json();
-
-                // ၁။ LIVE အပိုင်းကို ထည့်သွင်းခြင်း
-                if (data.live) {
-                    document.getElementById('top-num').innerText = data.live.twod || "--";
-                    document.getElementById('status-time').innerText = data.live.time || "--";
-                }
-
-                // ၂။ RESULT အပိုင်း (အချက်အလက်များ Array သို့မဟုတ် Object ပုံစံအပေါ်မူတည်၍ အလုပ်လုပ်ရန်)
-                // ဥပမာ - data.result သည် အားလုံးပါဝင်သော array ဖြစ်နေပါက
-                if (data.result && Array.isArray(data.result)) {
-                    data.result.forEach(item => {
-                        // 09:30 အတွက်
-                        if (item.open_time === "09:30:00") {
-                            document.getElementById('m930').innerText = item.modern || "--";
-                            document.getElementById('i930').innerText = item.internet || "--";
-                        }
-                        // 12:01 အတွက်
-                        if (item.open_time === "12:01:00") {
-                            document.getElementById('c1-set').innerText = item.set || "--";
-                            document.getElementById('c1-val').innerText = item.value || "--";
-                            document.getElementById('c1-num').innerText = item.twod || "--";
-                        }
-                        // 14:00 (2:00 PM) အတွက်
-                        if (item.open_time === "14:00:00") {
-                            document.getElementById('m200').innerText = item.modern || "--";
-                            document.getElementById('i200').innerText = item.internet || "--";
-                        }
-                        // 16:30 (4:30 PM) အတွက်
-                        if (item.open_time === "16:30:00") {
-                            document.getElementById('c2-set').innerText = item.set || "--";
-                            document.getElementById('c2-val').innerText = item.value || "--";
-                            document.getElementById('c2-num').innerText = item.twod || "--";
-                        }
-                    });
-                }
-
-            } catch (error) {
-                console.error("API Fetching Error:", error);
-                document.getElementById('status-time').innerText = "Connection Error";
-            }
+        // ၁။ LIVE အပိုင်းကို ထည့်သွင်းခြင်း
+        if (data.live) {
+            document.getElementById('top-num').innerText = data.live.twod || "--";
+            document.getElementById('status-time').innerText = data.live.time || "--";
         }
 
-        // စာမျက်နှာစတင်ဖွင့်လိုက်သည်နှင့် API ကို တစ်ကြိမ်ခေါ်မည်
-        fetch2DData();
+        // ၂။ RESULT အပိုင်း
+        if (data.result && Array.isArray(data.result)) {
+            data.result.forEach(item => {
+                if (item.open_time === "09:30:00") {
+                    document.getElementById('m930').innerText = item.modern || "--";
+                    document.getElementById('i930').innerText = item.internet || "--";
+                }
+                if (item.open_time === "12:01:00") {
+                    document.getElementById('c1-set').innerText = item.set || "--";
+                    document.getElementById('c1-val').innerText = item.value || "--";
+                    document.getElementById('c1-num').innerText = item.twod || "--";
+                }
+                if (item.open_time === "14:00:00") {
+                    document.getElementById('m200').innerText = item.modern || "--";
+                    document.getElementById('i200').innerText = item.internet || "--";
+                }
+                if (item.open_time === "16:30:00") {
+                    document.getElementById('c2-set').innerText = item.set || "--";
+                    document.getElementById('c2-val').innerText = item.value || "--";
+                    document.getElementById('c2-num').innerText = item.twod || "--";
+                }
+            });
+        }
 
-        // ၅ စက္ကန့် (သို့မဟုတ်) ၁၀ စက္ကန့်တစ်ကြိမ် Live ဒေတာ အလိုအလျောက် Update ဖြစ်စေရန်
-        setInterval(fetch2DData, 5000);
-    </script>
-</body>
-</html>
+    } catch (error) {
+        console.error("API Fetching Error:", error);
+        document.getElementById('status-time').innerText = "Connection Error";
+    }
+}
+
+fetch2DData();
+setInterval(fetch2DData, 5000);
