@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,19 +61,19 @@
     <script>
         async function updateDashboard() {
             try {
-                // Vercel Serverless Function ထံမှ Live ဒေတာကို တိုက်ရိုက်လှမ်းတောင်းခြင်း
-                const response = await fetch('/api/2d-live');
+                // အရေးကြီးသောပြင်ဆင်မှု - နောက်ကွယ်မှ အလုပ်လုပ်နေသော သင်၏ Render API လင့်ခ်မှ တိုက်ရိုက်ဆွဲယူခြင်း
+                const response = await fetch('https://onrender.com');
                 const res = await response.json();
                 
                 document.getElementById('top-num').innerText = res.main_live;
                 document.getElementById('status-time').innerText = res.updated_time;
                 
-                // 12:01 PM (နမူနာပြောင်းလဲမှုစနစ်)
-                document.getElementById('c1-num').innerText = "75";
-                document.getElementById('c1-set').innerText = "1,615.27";
-                document.getElementById('c1-val').innerText = "43,105.48";
+                // 12:01 PM 
+                document.getElementById('c1-num').innerText = res.history_today["12:01 PM"].live_2d;
+                document.getElementById('c1-set').innerText = res.history_today["12:01 PM"].set_index;
+                document.getElementById('c1-val').innerText = res.history_today["12:01 PM"].set_value;
                 
-                // 04:30 PM (တကယ့် Live အစစ်အမှန်)
+                // 04:30 PM
                 document.getElementById('c2-num').innerText = res.history_today["04:30 PM"].live_2d;
                 document.getElementById('c2-set').innerText = res.history_today["04:30 PM"].set_index;
                 document.getElementById('c2-val').innerText = res.history_today["04:30 PM"].set_value;
@@ -87,7 +86,7 @@
                 document.getElementById('m200').innerText = res.history_today["02:00 PM"].modern;
                 document.getElementById('i200').innerText = res.history_today["02:00 PM"].internet;
             } catch (e) {
-                console.log("Error connection to API");
+                console.log("Error connection to Live API");
             }
         }
         updateDashboard();
