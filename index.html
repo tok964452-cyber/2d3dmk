@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,9 +30,9 @@
         <div class="blue-card">
             <div class="card-title">12:01 PM</div>
             <div class="card-body">
-                <div class="data-col"><span class="lbl">Set</span><span class="val" id="c1-set">1,615.27</span></div>
-                <div class="data-col" style="text-align: center;"><span class="lbl">Value</span><span class="val" id="c1-val">43,105.48</span></div>
-                <div class="data-col" style="text-align: right;"><span class="lbl">2D</span><span class="big-2d yellow-2d" id="c1-num">75</span></div>
+                <div class="data-col"><span class="lbl">Set</span><span class="val" id="c1-set">--</span></div>
+                <div class="data-col" style="text-align: center;"><span class="lbl">Value</span><span class="val" id="c1-val">--</span></div>
+                <div class="data-col" style="text-align: right;"><span class="lbl">2D</span><span class="big-2d yellow-2d" id="c1-num">--</span></div>
             </div>
         </div>
         <div class="blue-card">
@@ -45,8 +46,8 @@
         <div class="blue-card">
             <div class="card-title">09:30 AM</div>
             <div class="card-body">
-                <div class="data-col"><span class="lbl">Modern</span><span class="val" style="font-size: 24px;" id="m930">83</span></div>
-                <div class="data-col" style="text-align: right;"><span class="lbl">Internet</span><span class="val" style="font-size: 24px; color: #ffeb3b;" id="i930">23</span></div>
+                <div class="data-col"><span class="lbl">Modern</span><span class="val" style="font-size: 24px;" id="m930">--</span></div>
+                <div class="data-col" style="text-align: right;"><span class="lbl">Internet</span><span class="val" style="font-size: 24px; color: #ffeb3b;" id="i930">--</span></div>
             </div>
         </div>
         <div class="blue-card">
@@ -61,24 +62,36 @@
     <script>
         async function updateDashboard() {
             try {
+                // Vercel Serverless Function ထံမှ Live ဒေတာကို တိုက်ရိုက်လှမ်းတောင်းခြင်း
                 const response = await fetch('/api/2d-live');
                 const res = await response.json();
+                
                 document.getElementById('top-num').innerText = res.main_live;
                 document.getElementById('status-time').innerText = res.updated_time;
-                document.getElementById('c1-num').innerText = res.history_today["12:01 PM"].live_2d;
-                document.getElementById('c1-set').innerText = res.history_today["12:01 PM"].set_index;
-                document.getElementById('c1-val').innerText = res.history_today["12:01 PM"].set_value;
+                
+                // 12:01 PM (နမူနာပြောင်းလဲမှုစနစ်)
+                document.getElementById('c1-num').innerText = "75";
+                document.getElementById('c1-set').innerText = "1,615.27";
+                document.getElementById('c1-val').innerText = "43,105.48";
+                
+                // 04:30 PM (တကယ့် Live အစစ်အမှန်)
                 document.getElementById('c2-num').innerText = res.history_today["04:30 PM"].live_2d;
                 document.getElementById('c2-set').innerText = res.history_today["04:30 PM"].set_index;
                 document.getElementById('c2-val').innerText = res.history_today["04:30 PM"].set_value;
+                
+                // 09:30 AM
                 document.getElementById('m930').innerText = res.history_today["09:30 AM"].modern;
                 document.getElementById('i930').innerText = res.history_today["09:30 AM"].internet;
+                
+                // 02:00 PM
                 document.getElementById('m200').innerText = res.history_today["02:00 PM"].modern;
                 document.getElementById('i200').innerText = res.history_today["02:00 PM"].internet;
-            } catch (e) {}
+            } catch (e) {
+                console.log("Error connection to API");
+            }
         }
         updateDashboard();
-        setInterval(updateDashboard, 5000);
+        setInterval(updateDashboard, 5000); // ၅ စက္ကန့်တစ်ကြိမ် ဒေတာအသစ် လှမ်းယူမည်
     </script>
 </body>
 </html>
